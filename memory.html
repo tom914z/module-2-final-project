@@ -23,9 +23,12 @@
             box.setAttribute('data-emoji', emoji);
 
             box.onclick = function() {
-                this.classList.add('boxOpen');
+                if (!this.classList.contains('boxMatch') && document.querySelectorAll('.boxOpen').length < 2) {
+                    this.classList.add('boxOpen');
+                }
+                
                 setTimeout(() => {
-                    const openBoxes = document.querySelectorAll('.boxOpen');
+                    const openBoxes = document.querySelectorAll('.boxOpen:not(.boxMatch)');
                     if (openBoxes.length === 2) {
                         if (openBoxes[0].dataset.emoji === openBoxes[1].dataset.emoji) {
                             openBoxes.forEach(box => {
