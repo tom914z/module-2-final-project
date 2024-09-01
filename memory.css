@@ -77,7 +77,8 @@ h2 {
     color: #333;
 }
 
-.item.boxOpen::before {
+.item.boxOpen::before,
+.item.boxMatch::before {
     content: attr(data-emoji);
     color: #000;
 }
