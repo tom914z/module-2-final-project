@@ -40,6 +40,7 @@
                                 setTimeout(() => alert('You win!'), 100);
                             }
                         } else {
+                            alert("These emojis don't match!"); // Alert if they don't match
                             openBoxes.forEach(box => box.classList.remove('boxOpen'));
                         }
                     }
