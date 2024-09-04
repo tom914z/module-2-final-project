@@ -9,46 +9,93 @@
 </head>
 <body>
     <div class="container">
+        <!-- Game title -->
         <h2>Memory Game</h2>
+        <!-- Game board container -->
         <div class="game"></div>
-        <button class="reset" onclick="window.location.reload();">Reset Game</button>
+        <!-- Reset button to restart the game -->
+        <button class="reset" onclick="game.resetGame();">Reset Game</button>
     </div>
     <script>
-        const emojis = ["😍","😍","🥰","🥰","😂","😂","😭","😭","🥺","🥺","😃","😃","🤬","🤬","👍🏻","👍🏻"];
-        const shuf_emojis = emojis.sort(() => Math.random() - 0.5);
+        // MemoryGame class encapsulates the entire game logic
+        class MemoryGame {
+            constructor(emojis, gameContainer) {
+                this.emojis = emojis; // Array of emojis used in the game
+                this.gameContainer = gameContainer; // DOM element where the game board will be rendered
+                this.shuffledEmojis = []; // Array to hold shuffled emojis
+                this.initializeGame(); // Initialize the game when the class is instantiated
+            }
 
-        shuf_emojis.forEach(emoji => {
-            const box = document.createElement('div');
-            box.classList.add('item');
-            box.setAttribute('data-emoji', emoji);
+            // Function to initialize the game
+            initializeGame() {
+                this.shuffledEmojis = this.shuffleArray([...this.emojis]); // Shuffle the emojis
+                this.gameContainer.innerHTML = ''; // Clear the game board
+                this.createGameBoard(); // Create the game board with shuffled emojis
+            }
 
-            box.onclick = function() {
-                if (!this.classList.contains('boxMatch') && document.querySelectorAll('.boxOpen').length < 2) {
-                    this.classList.add('boxOpen');
+            // Function to shuffle an array (Fisher-Yates shuffle algorithm)
+            shuffleArray(array) {
+                return array.sort(() => Math.random() - 0.5); // Simple random sort for shuffling
+            }
+
+            // Function to create the game board by populating it with boxes (divs)
+            createGameBoard() {
+                this.shuffledEmojis.forEach(emoji => {
+                    const box = document.createElement('div'); // Create a div for each emoji
+                    box.classList.add('item'); // Add 'item' class to each div
+                    box.setAttribute('data-emoji', emoji); // Set emoji as a data attribute
+                    box.addEventListener('click', () => this.handleBoxClick(box)); // Add click event listener
+                    this.gameContainer.appendChild(box); // Append the div to the game board
+                });
+            }
+
+            // Function to handle the click event on a box
+            handleBoxClick(box) {
+                // Open the box if it's not already matched and less than 2 boxes are open
+                if (!box.classList.contains('boxMatch') && document.querySelectorAll('.boxOpen').length < 2) {
+                    box.classList.add('boxOpen');
                 }
-                
+
+                // After a short delay, check if two open boxes match
                 setTimeout(() => {
                     const openBoxes = document.querySelectorAll('.boxOpen:not(.boxMatch)');
                     if (openBoxes.length === 2) {
-                        if (openBoxes[0].dataset.emoji === openBoxes[1].dataset.emoji) {
-                            openBoxes.forEach(box => {
-                                box.classList.add('boxMatch');
-                                box.classList.remove('boxOpen');
-                            });
-
-                            if (document.querySelectorAll('.boxMatch').length === emojis.length) {
-                                setTimeout(() => alert('You win!'), 100);
-                            }
-                        } else {
-                            alert("These emojis don't match!"); // Alert if they don't match
-                            openBoxes.forEach(box => box.classList.remove('boxOpen'));
-                        }
+                        this.checkForMatch(openBoxes); // Check if the open boxes match
                     }
                 }, 500);
-            };
+            }
 
-            document.querySelector('.game').appendChild(box);
-        });
+            // Function to check if the two open boxes match
+            checkForMatch(openBoxes) {
+                if (openBoxes[0].dataset.emoji === openBoxes[1].dataset.emoji) {
+                    // If they match, mark them as matched and close them
+                    openBoxes.forEach(box => {
+                        box.classList.add('boxMatch');
+                        box.classList.remove('boxOpen');
+                    });
+                    // If all boxes are matched, alert the user that they won
+                    if (document.querySelectorAll('.boxMatch').length === this.emojis.length) {
+                        setTimeout(() => alert('You win!'), 100);
+                    }
+                } else {
+                    // If they don't match, alert the user and close the boxes
+                    alert("These emojis don't match!");
+                    openBoxes.forEach(box => box.classList.remove('boxOpen'));
+                }
+            }
+
+            // Function to reset the game
+            resetGame() {
+                this.initializeGame(); // Reinitialize the game
+            }
+        }
+
+        // Array of emojis for the game
+        const emojis = ["😍","😍","🥰","🥰","😂","😂","🤣","🤣","🥺","🥺","😃","😃","😇","😇","👍🏻","👍🏻"];
+        // Reference to the game board container in the DOM
+        const gameContainer = document.querySelector('.game');
+        // Instantiate the MemoryGame class
+        const game = new MemoryGame(emojis, gameContainer);
     </script>
 </body>
 </html>
