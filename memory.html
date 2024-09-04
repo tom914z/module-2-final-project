@@ -68,11 +68,12 @@
             // Function to check if the two open boxes match
             checkForMatch(openBoxes) {
                 if (openBoxes[0].dataset.emoji === openBoxes[1].dataset.emoji) {
-                    // If they match, mark them as matched and close them
+                    // If they match, mark them as matched, alert the user, and close them
                     openBoxes.forEach(box => {
                         box.classList.add('boxMatch');
                         box.classList.remove('boxOpen');
                     });
+                    alert("These emojis match!"); // Alert that the emojis match
                     // If all boxes are matched, alert the user that they won
                     if (document.querySelectorAll('.boxMatch').length === this.emojis.length) {
                         setTimeout(() => alert('You win!'), 100);
@@ -91,7 +92,7 @@
         }
 
         // Array of emojis for the game
-        const emojis = ["😍","😍","🥰","🥰","😂","😂","🤣","🤣","🥺","🥺","😃","😃","😇","😇","👍🏻","👍🏻"];
+        const emojis = ["😍","😍","🥰","🥰","😂","😂","🤣","🤣","😉","😉","😃","😃","😇","😇","👍🏻","👍🏻"];
         // Reference to the game board container in the DOM
         const gameContainer = document.querySelector('.game');
         // Instantiate the MemoryGame class
