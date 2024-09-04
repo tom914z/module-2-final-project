@@ -1,3 +1,4 @@
+/* Universal selector to reset margin, padding, and set box-sizing */
 * {
     margin: 0;
     padding: 0;
@@ -5,25 +6,28 @@
     font-family: monospace;
 }
 
+/* Body styling: center content vertically and horizontally */
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #0b1785;
+    background-color: #0b1785; /* Dark blue background */
 }
 
+/* Container for the game, including the title and reset button */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    background-color: #ba0505;
+    background-color: #ba0505; /* Red background for the container */
     padding: 40px 60px;
     border-radius: 10px;
     text-align: center;
 }
 
+/* Styling for the game title */
 h2 {
     font-size: 3em;
     color: #fff;
@@ -31,10 +35,11 @@ h2 {
     letter-spacing: 0.1em;
 }
 
+/* Styling for the reset button */
 .reset {
     padding: 15px 20px;
     color: #fff;
-    background-color: #267c65;
+    background-color: #267c65; /* Green background */
     border: none;
     font-size: 1.5em;
     letter-spacing: 0.1em;
@@ -44,10 +49,12 @@ h2 {
     border-radius: 5px;
 }
 
+/* Styling for the reset button when focused */
 .reset:focus {
-    background-color: #209d7b;
+    background-color: #209d7b; /* Darker green on focus */
 }
 
+/* Styling for the game board */
 .game {
     display: flex;
     flex-wrap: wrap;
@@ -57,33 +64,37 @@ h2 {
     perspective: 500px;
 }
 
+/* Styling for each item (emoji card) in the game */
 .item {
     width: 100px;
     height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.2em;
-    background-color: #ca1414;
+    font-size: 2em; /* Font size for the emojis */
+    background-color: #000000; /* Black background for each item */
     transition: transform 0.25s;
     cursor: pointer;
     border-radius: 10px;
     position: relative;
 }
 
+/* Placeholder content for face-down cards */
 .item::before {
-    content: '❓';
-    font-size: 3em;
-    color: #333;
+    content: '❓'; /* Question mark as placeholder */
+    font-size: 2em; /* Size of the question mark */
+    color: #333; /* Dark gray color for the question mark */
 }
 
+/* Styling for when a box is open (face-up) */
 .item.boxOpen::before,
 .item.boxMatch::before {
-    content: attr(data-emoji);
-    color: #000;
+    content: attr(data-emoji); /* Display the emoji */
+    color: #000; /* Black color for the emoji */
 }
 
+/* Styling for when a box is matched */
 .item.boxMatch {
-    background-color: #4caf50;
-    color: #fff;
+    background-color: #4caf50; /* Green background for matched boxes */
+    color: #fff; /* White color for the emoji */
 }
